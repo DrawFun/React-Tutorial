@@ -49,7 +49,8 @@ class Game extends React.Component {
     super();
     this.state = {
       history : [{
-        squares : Array(9).fill(null)
+        squares : Array(9).fill(null),
+        moves : [0, 0],
       }],
       stepNumber : 0,
       xIsNext : true, 
@@ -66,6 +67,7 @@ class Game extends React.Component {
     this.setState({
       history : history.concat([{
         squares : squares,
+        moves : [Math.floor(i / 3) + 1, i % 3 + 1],  
       }]),
       stepNumber : history.length,
       xIsNext : !this.state.xIsNext,
@@ -81,8 +83,8 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    const moves = history.map((step, moveIdx) => {
-      const desc = moveIdx ? "Move #" + moveIdx : "Game start";
+    const moves = history.map((content, moveIdx) => {
+      const desc = moveIdx ? "Move #" + moveIdx + ", [" + content.moves + "]" : "Game start";
       return (
         <li key={moveIdx}> 
           <a href="#" onClick={() => this.jumpTo(moveIdx)}>{desc}</a>
@@ -120,7 +122,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <div> <Game /> </div>
+        <div className="App-content"> <Game /> </div>
       </div>
     );
   }

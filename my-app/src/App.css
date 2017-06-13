@@ -18,6 +18,9 @@
   font-size: large;
 }
 
+.App-content {
+}
+
 .board-row:after {
   clear: both;
   content: "";
