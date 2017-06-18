@@ -31,7 +31,7 @@
   margin-bottom: 10px;
 }
 
-.square {
+.square, .square-winner{
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -46,7 +46,11 @@
   text-align: center;
 }
 
-.square:focus {
+.square-winner {
+  color: red;
+}
+
+.square:focus, .square-winner:focus{
   outline: none;
 }
 
