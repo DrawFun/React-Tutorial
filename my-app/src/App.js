@@ -48,9 +48,12 @@ class Game extends React.Component {
         moves : [0, 0],
       }],
       stepNumber : 0,
-      xIsNext : true, 
+      xIsNext : true,
+      ascendingMode : true,
     };
+    this.handlerToggle = this.handlerToggle.bind(this);
   }
+  
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -68,16 +71,25 @@ class Game extends React.Component {
       xIsNext : !this.state.xIsNext,
     });
   }
+
+  handlerToggle() {
+    this.setState(prevState => ({
+      ascendingMode : !prevState.ascendingMode
+    }));
+  }
+  
   jumpTo(step) {
     this.setState({
       stepNumber : step,
       xIsNext : (step % 2) ? false : true,
     });
   }
+  
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    const isAscendingMode = this.state.ascendingMode;
     const moves = history.map((content, moveIdx) => {
       const desc = moveIdx ? "Move #" + moveIdx + ", [" + content.moves + "]" : "Game start";
       return (
@@ -86,6 +98,9 @@ class Game extends React.Component {
         </li>
       );
     });
+    if (!isAscendingMode) {
+      moves.reverse();
+    }
     let status;
     let highlights = [];
     if (winner) {
@@ -101,6 +116,7 @@ class Game extends React.Component {
           </div>
           <div className="game-info">
             <div className="status">{status}</div>
+            <button onClick={this.handlerToggle}> {isAscendingMode ? "Ascending Mode" : "Descending Mode"} </button>
             <div> {moves} </div>
           </div>
         </div>
